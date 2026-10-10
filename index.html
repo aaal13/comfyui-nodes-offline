@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ComfyUI 节点离线百科 — 首页</title>
+<meta name="description" content="面向新手的 ComfyUI 节点中文百科：离线可用的节点用途、输入输出、分类与来源说明。">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/hero.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="site-brand" href="index.html">ComfyUI 节点百科<span class="site-brand-sub">离线版</span></a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="index.html">首页</a>
+      <a href="nodes.html">节点百科</a>
+      <a href="workflows.html">常用工作流</a>
+      <a href="faq.html">术语与排错</a>
+      <a href="sources.html">数据来源</a>
+      <button class="btn theme-toggle" type="button" data-theme-toggle aria-pressed="false">深色模式</button>
+    </nav>
+  </div>
+</header>
+
+<main class="site-main" id="main" tabindex="-1">
+  <div class="container">
+
+    <!-- ============ 1. Hero：一句话定位 + 主/次 CTA + 数据带 ============ -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-deco" aria-hidden="true">
+        <span class="hero-grid-lines"></span>
+        <span class="hero-orb hero-orb-a"></span>
+        <span class="hero-orb hero-orb-b"></span>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="hero-eyebrow"><span class="hero-pulse" aria-hidden="true"></span>完全离线 · 零外部请求 · 中文对照</p>
+          <h1 class="hero-title" id="hero-title">ComfyUI 节点离线百科</h1>
+          <p class="hero-sub">每个节点做什么、有哪些输入输出——一份断网也能查的中文对照手册。</p>
+
+          <div class="hero-cta">
+            <a class="btn btn-primary hero-btn" href="nodes.html">
+              进入节点百科
+              <svg class="hero-btn-ico" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6.5 18.5 12 13 17.5"/></svg>
+            </a>
+            <a class="btn hero-btn hero-btn-ghost" href="workflows.html">看常用工作流</a>
+          </div>
+
+          <p class="hero-kbd-hint">按 <kbd class="cw-kbd">Ctrl</kbd> / <kbd class="cw-kbd">⌘</kbd> + <kbd class="cw-kbd">K</kbd> 呼出命令面板，全站搜索节点</p>
+
+          <p class="hero-trust">
+            内容来自 ComfyUI 官方文档与你公开节点数据集 的 <span class="node-chip">节点数据集</span> 导出，
+            每条词条都带来源，不做凭记忆的推测；双击 <span class="node-chip">site/index.html</span> 即可离线打开。
+          </p>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <svg class="hero-graph" viewBox="0 0 400 180" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="heroLinkGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop class="hero-g-stop-a" offset="0"></stop>
+                <stop class="hero-g-stop-b" offset="1"></stop>
+              </linearGradient>
+            </defs>
+
+            <path class="hero-g-link" d="M130 44 C 152 44, 148 88, 170 88"></path>
+            <path class="hero-g-link" d="M130 128 C 152 128, 148 88, 170 88"></path>
+            <path class="hero-g-link" d="M280 88 C 291 88, 293 88, 302 88"></path>
+
+            <g class="hero-g-node">
+              <rect x="10" y="24" width="120" height="40" rx="11"></rect>
+              <text x="24" y="49">Checkpoint</text>
+              <circle class="hero-g-port hero-g-port-model" cx="130" cy="34" r="3.6"></circle>
+              <circle class="hero-g-port hero-g-port-clip" cx="130" cy="44" r="3.6"></circle>
+              <circle class="hero-g-port hero-g-port-vae" cx="130" cy="54" r="3.6"></circle>
+            </g>
+
+            <g class="hero-g-node">
+              <rect x="10" y="108" width="120" height="40" rx="11"></rect>
+              <text x="24" y="133">CLIP Text</text>
+              <circle class="hero-g-port hero-g-port-cond" cx="130" cy="128" r="3.6"></circle>
+            </g>
+
+            <g class="hero-g-node hero-g-node-main">
+              <rect x="170" y="62" width="110" height="52" rx="12"></rect>
+              <text x="184" y="93">KSampler</text>
+              <circle class="hero-g-port hero-g-port-cond" cx="170" cy="88" r="3.6"></circle>
+              <circle class="hero-g-port hero-g-port-latent" cx="280" cy="88" r="3.6"></circle>
+            </g>
+
+            <g class="hero-g-node">
+              <rect x="302" y="62" width="92" height="52" rx="12"></rect>
+              <text x="314" y="93">VAE Decode</text>
+              <circle class="hero-g-port hero-g-port-latent" cx="302" cy="88" r="3.6"></circle>
+              <circle class="hero-g-port hero-g-port-image" cx="394" cy="88" r="3.6"></circle>
+            </g>
+
+            <path class="hero-g-axis" d="M10 166 H390"></path>
+          </svg>
+          <span class="hero-float hero-float-a">0 外部请求</span>
+          <span class="hero-float hero-float-b">file:// 直开</span>
+        </div>
+      </div>
+
+      <div class="hero-databand">
+        <p class="hero-band-label">数据统计（实时读取本页脚本数据）</p>
+        <div class="stats hero-stats" id="home-stats">
+          <div class="stat-item">
+            <div class="stat-value">—</div>
+            <div class="stat-label">需要 JavaScript 才能显示统计</div>
+          </div>
+        </div>
+        <div class="hero-band-foot">
+          <p class="muted hero-meta" id="home-meta">数据统计会在页面加载后从 <span class="node-chip">assets/nodes-data.js</span> 读取。</p>
+          <div class="hero-packs">
+            <span class="hero-packs-label">第三方节点包</span>
+            <div id="home-packs"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 2. 入口 ============ -->
+    <section class="hero-sec" aria-labelledby="sec-start">
+      <div class="hero-sec-head">
+        <h2 id="sec-start">从哪里开始</h2>
+        <p class="hero-lead">四个入口，按你需要的东西选一个。</p>
+      </div>
+
+      <div class="grid hero-entries">
+        <a class="card hero-entry" href="nodes.html">
+          <span class="hero-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7.5" height="7.5" rx="2.2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2.2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2.2"/></svg>
+          </span>
+          <h3 class="card-title">节点百科 <span class="badge">主入口</span></h3>
+          <p class="hero-one">按官方分类浏览全部节点，中英文与节点名实时搜索、键盘可操作，可深链到单个节点（如 <span class="node-chip">nodes.html#KSampler</span>）。</p>
+          <span class="hero-entry-go" aria-hidden="true">打开 →</span>
+        </a>
+
+        <a class="card hero-entry" href="workflows.html">
+          <span class="hero-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M7.2 6h9.6M6.5 7.9l4.3 8M17.5 7.9l-4.3 8"/></svg>
+          </span>
+          <h3 class="card-title">常用工作流拆解</h3>
+          <p class="hero-one">文生图、图生图、局部重绘、高清放大、LoRA、ControlNet、视频：每类给出真实节点组成的链路与关键参数。</p>
+          <span class="hero-entry-go" aria-hidden="true">打开 →</span>
+        </a>
+
+        <a class="card hero-entry" href="faq.html">
+          <span class="hero-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 4.6h6.2A2.4 2.4 0 0 1 12.6 7v12.6a2 2 0 0 0-1.8-1.1H4z"/><path d="M20 4.6h-6.2A2.4 2.4 0 0 0 11.4 7v12.6a2 2 0 0 1 1.8-1.1H20z"/></svg>
+          </span>
+          <h3 class="card-title">术语表与排错</h3>
+          <p class="hero-one">Latent、CLIP、VAE、CFG、steps、sampler、scheduler、denoise、seed 等概念，以及常见报错的处理思路。</p>
+          <span class="hero-entry-go" aria-hidden="true">打开 →</span>
+        </a>
+
+        <a class="card hero-entry" href="sources.html">
+          <span class="hero-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"/><path d="M4.5 12v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-6"/></svg>
+          </span>
+          <h3 class="card-title">数据来源与合规</h3>
+          <p class="hero-one">全部来源清单（含数据集 <span class="node-chip">节点数据集</span> 导出）、生成时间、许可声明，以及如何重新生成数据。</p>
+          <span class="hero-entry-go" aria-hidden="true">打开 →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ 3. 基础概念 ============ -->
+    <section class="hero-sec" aria-labelledby="sec-concepts">
+      <div class="hero-sec-head">
+        <h2 id="sec-concepts">ComfyUI 节点基础概念</h2>
+        <p class="hero-lead">ComfyUI 是节点式（可视化编程）的生成式 AI 工具：把节点连起来组成工作流，数据沿着连线流动。理解这四件事就够了。</p>
+      </div>
+
+      <div class="grid hero-concepts">
+        <article class="card hero-concept">
+          <h3 class="card-title">
+            <span class="hero-ico hero-ico-sm" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.2 20 7.6v8.8L12 20.8 4 16.4V7.6z"/><path d="M12 12l8-4.4M12 12v8.8M12 12 4 7.6"/></svg>
+            </span>
+            1. 节点（Node）
+          </h3>
+          <p class="hero-quote">官方定义：「节点是 ComfyUI 的基本构建块：通过连线连接的独立 Comfy Core 或自定义模块，用来组装复杂工作流。」</p>
+          <p class="hero-one">每个节点是一个独立模块，各管一段功能：加载模型、编码提示词、采样、保存文件。节点几乎总至少有一个输入或输出。</p>
+          <p class="sources">来源：<a href="https://docs.comfy.org/zh/basic-concepts/nodes.md" target="_blank" rel="noopener noreferrer">官方文档《节点》</a> <span class="badge badge-warn">需联网</span></p>
+        </article>
+
+        <article class="card hero-concept">
+          <h3 class="card-title">
+            <span class="hero-ico hero-ico-sm" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9.5 14.5 14.5 9.5"/><path d="M7.2 12.2 5.4 14a3.4 3.4 0 0 0 4.8 4.8l1.8-1.8"/><path d="M16.8 11.8 18.6 10a3.4 3.4 0 0 0-4.8-4.8l-1.8 1.8"/></svg>
+            </span>
+            2. 端口与连线（Port / Link）
+          </h3>
+          <p class="hero-quote">节点之间画的线叫连线：把上一个节点的输出接到下一个节点的输入，定义了工作流的数据流。</p>
+          <p class="hero-one">官方强调：只能连接相同颜色的端口（同一种数据类型）。连不上，通常就是数据类型不匹配。</p>
+          <p class="sources">来源：<a href="https://docs.comfy.org/zh/basic-concepts/links.md" target="_blank" rel="noopener noreferrer">官方文档《连线》</a> <span class="badge badge-warn">需联网</span></p>
+        </article>
+
+        <article class="card hero-concept">
+          <h3 class="card-title">
+            <span class="hero-ico hero-ico-sm" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 8h9M17.5 8h2M4.5 16h3M11.5 16h8"/><circle cx="15.5" cy="8" r="2.1"/><circle cx="9.5" cy="16" r="2.1"/></svg>
+            </span>
+            3. 属性 / 参数（Properties）
+          </h3>
+          <p class="hero-quote">节点上的属性（也叫参数）决定节点怎么工作，例如 KSampler 的步数、CFG、采样器名称。</p>
+          <p class="hero-one">大多数属性可以在节点上手动填，也可以改由别的节点驱动（接到输入端口）。ComfyUI 环境是强类型的，不同数据类型不能混用。</p>
+          <p class="sources">来源：<a href="https://docs.comfy.org/zh/basic-concepts/properties.md" target="_blank" rel="noopener noreferrer">官方文档《属性》</a> <span class="badge badge-warn">需联网</span></p>
+        </article>
+
+        <article class="card hero-concept">
+          <h3 class="card-title">
+            <span class="hero-ico hero-ico-sm" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="8" height="6" rx="2.2"/><rect x="13" y="14" width="8" height="6" rx="2.2"/><path d="M7 10v4.2A2.8 2.8 0 0 0 9.8 17H13"/></svg>
+            </span>
+            4. 工作流（Workflow）
+          </h3>
+          <p class="hero-quote">官方定义：「工作流是一组步骤，告诉 ComfyUI 如何创建内容。」可以当成食谱：食谱＝工作流，每条指令＝节点，食材＝提示词、图像和模型。</p>
+          <p class="hero-one">工作流能存成 JSON 独立分享；保存节点输出时 ComfyUI 也会把工作流嵌进文件里，把图片拖回画布即可还原。</p>
+          <p class="sources">来源：<a href="https://docs.comfy.org/zh/basic-concepts/workflow.md" target="_blank" rel="noopener noreferrer">官方文档《工作流》</a> <span class="badge badge-warn">需联网</span></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 4. 端口数据类型 ============ -->
+    <section class="hero-sec" aria-labelledby="sec-ports">
+      <div class="hero-sec-head">
+        <h2 id="sec-ports">端口数据类型（颜色对照）</h2>
+        <p class="hero-lead">颜色对应关系来自官方《连线》的颜色编码表；「类型名」是你在节点端口与数据集 <span class="node-chip">节点数据集</span> 里实际看到的标识符。</p>
+      </div>
+
+      <table class="table hero-table">
+        <caption class="visually-hidden">ComfyUI 常用端口数据类型对照表</caption>
+        <thead>
+          <tr><th>色</th><th>类型名</th><th>官方中文名</th><th>端口颜色</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="hero-port hero-port-model" aria-hidden="true"></span></td>
+            <td><span class="node-chip">MODEL</span></td><td>Diffusion 模型</td><td>薰衣草色</td>
+            <td>参与去噪运算的扩散模型权重，通常由 checkpoint 加载器输出。</td>
+          </tr>
+          <tr>
+            <td><span class="hero-port hero-port-clip" aria-hidden="true"></span></td>
+            <td><span class="node-chip">CLIP</span></td><td>CLIP 模型</td><td>黄色</td>
+            <td>文本（部分模型也可处理图像）编码器，用来把你的提示词变成条件。</td>
+          </tr>
+          <tr>
+            <td><span class="hero-port hero-port-vae" aria-hidden="true"></span></td>
+            <td><span class="node-chip">VAE</span></td><td>VAE 模型</td><td>玫瑰色</td>
+            <td>负责潜空间数据与像素图像之间的相互转换（编码 / 解码）。</td>
+          </tr>
+          <tr>
+            <td><span class="hero-port hero-port-cond" aria-hidden="true"></span></td>
+            <td><span class="node-chip">CONDITIONING</span></td><td>Conditioning</td><td>橙色</td>
+            <td>编码后的「条件」，即正向 / 负向提示词在模型里的表示。</td>
+          </tr>
+          <tr>
+            <td><span class="hero-port hero-port-latent" aria-hidden="true"></span></td>
+            <td><span class="node-chip">LATENT</span></td><td>Latent 图像</td><td>粉色</td>
+            <td>潜空间图像：一个 dict，里面 <span class="node-chip">samples</span> 是形状 <span class="node-chip">[B,C,H,W]</span> 的张量；高宽是像素图像的 1/8。</td>
+          </tr>
+          <tr>
+            <td><span class="hero-port hero-port-image" aria-hidden="true"></span></td>
+            <td><span class="node-chip">IMAGE</span></td><td>像素图像</td><td>蓝色</td>
+            <td>一批图像，PyTorch 张量形状 <span class="node-chip">[B,H,W,C]</span>（C 一般为 3，即 RGB）。</td>
+          </tr>
+          <tr>
+            <td><span class="hero-port hero-port-mask" aria-hidden="true"></span></td>
+            <td><span class="node-chip">MASK</span></td><td>遮罩</td><td>绿色</td>
+            <td>掩码张量，形状 <span class="node-chip">[H,W]</span> 或 <span class="node-chip">[B,C,H,W]</span>；局部重绘等场景用它指定处理区域。</td>
+          </tr>
+          <tr>
+            <td><span class="hero-port hero-port-num" aria-hidden="true"></span></td>
+            <td><span class="node-chip">INT</span> / <span class="node-chip">FLOAT</span></td><td>数字（整数或浮点）</td><td>灰色</td>
+            <td>数值参数，例如步数、CFG、去噪强度。</td>
+          </tr>
+          <tr>
+            <td><span class="hero-port hero-port-mesh" aria-hidden="true"></span></td>
+            <td><span class="node-chip">MESH</span></td><td>网格</td><td>亮绿色</td>
+            <td>3D 网格数据，用于 3D 相关节点。</td>
+          </tr>
+          <tr>
+            <td><span class="hero-port hero-port-none" aria-hidden="true"></span></td>
+            <td><span class="node-chip">AUDIO</span></td><td>—（官方颜色表未列出）</td><td>—</td>
+            <td>一个 dict：<span class="node-chip">waveform</span> 是形状 <span class="node-chip">[B,C,T]</span> 的张量，另有 <span class="node-chip">sample_rate</span> 表示采样率。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="sources hero-table-src">
+        来源：
+        <a href="https://docs.comfy.org/zh/basic-concepts/links.md" target="_blank" rel="noopener noreferrer">《连线》（中文，颜色编码表）</a>
+        <span class="badge badge-warn">需联网</span>；
+        <a href="https://docs.comfy.org/custom-nodes/backend/datatypes.md" target="_blank" rel="noopener noreferrer">《ComfyUI Custom Node Datatypes》（英文，张量形状与 AUDIO 说明）</a>
+        <span class="badge badge-warn">需联网</span>。类型名以数据集 <span class="node-chip">节点数据集</span> 导出为准。
+      </p>
+    </section>
+
+    <!-- ============ 5. 新手入门路径（步骤条） ============ -->
+    <section class="hero-sec" aria-labelledby="sec-path">
+      <div class="hero-sec-head">
+        <h2 id="sec-path">新手入门路径</h2>
+        <p class="hero-lead">五步从零跑到出图，每步都标注了官方来源。</p>
+      </div>
+
+      <ol class="hero-steps">
+        <li class="hero-step">
+          <span class="hero-step-num" aria-hidden="true">1</span>
+          <div class="hero-step-body">
+            <h3 class="hero-step-title">先把 ComfyUI 跑起来</h3>
+            <p class="hero-one">本地安装（便携版 / 桌面版 / 手动安装）后打开界面；不想本地安装，也可以先用官方云服务。</p>
+            <p class="sources">来源：<a href="https://docs.comfy.org/zh/get_started/first_generation.md" target="_blank" rel="noopener noreferrer">官方《开始 ComfyUI 的 AI 绘图之旅》</a> <span class="badge badge-warn">需联网</span></p>
+          </div>
+        </li>
+
+        <li class="hero-step">
+          <span class="hero-step-num" aria-hidden="true">2</span>
+          <div class="hero-step-body">
+            <h3 class="hero-step-title">打开一个模板工作流</h3>
+            <p class="hero-one">菜单 <span class="node-chip">工作流</span> → <span class="node-chip">浏览工作流模板</span>，选一个文生图模板；模板会提示你需要下载哪些模型。</p>
+            <p class="sources">来源：<a href="https://docs.comfy.org/zh/basic-concepts/workflow.md" target="_blank" rel="noopener noreferrer">官方《工作流》</a> <span class="badge badge-warn">需联网</span></p>
+          </div>
+        </li>
+
+        <li class="hero-step">
+          <span class="hero-step-num" aria-hidden="true">3</span>
+          <div class="hero-step-body">
+            <h3 class="hero-step-title">认清最小可运行的链路</h3>
+            <p class="hero-one">官方举的四步是：加载模型 → 编码提示词 → 采样 → 保存图像；完整最小链路还包含空潜空间画布与 VAE 解码。点开直达本站词条：</p>
+            <ul class="hero-node-list">
+              <li><a class="hero-node-link" href="nodes.html#CheckpointLoaderSimple">CheckpointLoaderSimple</a><span class="hero-node-use">加载 checkpoint，输出 MODEL / CLIP / VAE</span></li>
+              <li><a class="hero-node-link" href="nodes.html#CLIPTextEncode">CLIPTextEncode</a><span class="hero-node-use">正向 / 负向提示词编码</span></li>
+              <li><a class="hero-node-link" href="nodes.html#EmptyLatentImage">EmptyLatentImage</a><span class="hero-node-use">生成空白潜空间画布（宽高在这里设）</span></li>
+              <li><a class="hero-node-link" href="nodes.html#KSampler">KSampler</a><span class="hero-node-use">按模型与条件对潜空间去噪</span></li>
+              <li><a class="hero-node-link" href="nodes.html#VAEDecode">VAEDecode</a><span class="hero-node-use">潜空间解码成像素图像</span></li>
+              <li><a class="hero-node-link" href="nodes.html#SaveImage">SaveImage</a><span class="hero-node-use">保存图像（并写入工作流元数据）</span></li>
+            </ul>
+            <p class="sources">来源：<a href="https://docs.comfy.org/zh/basic-concepts/workflow.md" target="_blank" rel="noopener noreferrer">官方《工作流》</a>；节点名与端口取自数据集 <span class="node-chip">节点数据集</span> 导出 <span class="badge badge-warn">需联网</span></p>
+          </div>
+        </li>
+
+        <li class="hero-step">
+          <span class="hero-step-num" aria-hidden="true">4</span>
+          <div class="hero-step-body">
+            <h3 class="hero-step-title">备好模型文件</h3>
+            <p class="hero-one">模型不随安装包附带：把下载的权重放进 <span class="node-chip">ComfyUI/models/</span> 下对应子目录（如 <span class="node-chip">checkpoints</span>、<span class="node-chip">loras</span>、<span class="node-chip">vae</span>），再在加载器节点的下拉菜单里选它。</p>
+            <p class="sources">来源：<a href="https://docs.comfy.org/zh/basic-concepts/models.md" target="_blank" rel="noopener noreferrer">官方《模型》</a> <span class="badge badge-warn">需联网</span></p>
+          </div>
+        </li>
+
+        <li class="hero-step">
+          <span class="hero-step-num" aria-hidden="true">5</span>
+          <div class="hero-step-body">
+            <h3 class="hero-step-title">运行 → 排错</h3>
+            <p class="hero-one">工作流跑不动通常是缺模型、缺自定义节点或 Python 依赖。缺节点可对照 <a href="nodes.html">节点百科</a> 搜索确认它属于哪个包，再看 <a href="faq.html">术语与排错</a>。</p>
+            <p class="sources">来源：<a href="https://docs.comfy.org/zh/basic-concepts/dependencies.md" target="_blank" rel="noopener noreferrer">官方《依赖关系》</a> <span class="badge badge-warn">需联网</span></p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ 6. 数据来源矩阵 ============ -->
+    <section class="hero-sec" aria-labelledby="sec-sources">
+      <div class="hero-sec-head">
+        <h2 id="sec-sources">本站的数据从哪来</h2>
+        <p class="hero-lead">四类来源，各管一类事实字段；不编造、不推测。</p>
+      </div>
+
+      <div class="grid hero-srcs">
+        <article class="card hero-src">
+          <h3 class="card-title">官方文档索引</h3>
+          <p class="hero-src-path"><span class="node-chip">docs.comfy.org/_llms/en/built-in-nodes/nodes.md</span></p>
+          <p class="hero-one">节点清单与官方一句话简介。</p>
+        </article>
+
+        <article class="card hero-src">
+          <h3 class="card-title">官方中文 / 英文节点页</h3>
+          <p class="hero-src-path"><span class="node-chip">docs.comfy.org/zh/built-in-nodes/&lt;Page&gt;.md</span></p>
+          <p class="hero-one">用途说明、输入输出表格（中文优先，缺中文原样保留英文）。</p>
+        </article>
+
+        <article class="card hero-src">
+          <h3 class="card-title">公开节点数据集 环境</h3>
+          <p class="hero-src-path"><span class="node-chip">节点数据集</span> <span class="node-chip">节点数据集快照</span></p>
+          <p class="hero-one">真实节点名、display_name、输入类型与默认值、可选值、tooltip——节点事实以它为准。</p>
+        </article>
+
+        <article class="card hero-src">
+          <h3 class="card-title">官方源码</h3>
+          <p class="hero-src-path"><span class="node-chip">NODE_CLASS_MAPPINGS</span></p>
+          <p class="hero-one">ComfyUI 仓库源码，用于校对分类与节点名。</p>
+        </article>
+      </div>
+
+      <p class="hero-more">完整的来源清单、生成时间、许可声明与重建方式见 <a href="sources.html">数据来源与合规</a>。</p>
+    </section>
+
+    <!-- ============ 7. 合规声明 ============ -->
+    <aside class="hero-notice" aria-label="关于官方暂无中文">
+      <p><strong>关于「官方暂无中文」：</strong>ComfyUI 官方文档的中文页面数量有限；缺少中文说明的节点会原样保留英文并标注
+        <span class="badge badge-en">官方暂无中文</span>，本站<strong>不做机器翻译冒充官方</strong>。</p>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>数据来源：ComfyUI 官方文档（docs.comfy.org，需联网）与官方源码仓库（GPL-3.0）；节点事实以公开节点数据集 <span class="node-chip">节点数据集</span> 导出为准。</p>
+    <p>ComfyUI 为 GPL-3.0 许可；官方节点文档由 AI 生成，可能存在偏差，请以实际运行结果为准。本页完全离线运行，不加载任何外部资源。</p>
+    <p class="muted">「ComfyUI 节点离线百科」· 详细来源与生成时间见 <a href="sources.html">数据来源</a>。</p>
+  </div>
+</footer>
+
+<script src="assets/nodes-data.js" defer></script>
+<script src="assets/app.js" defer></script>
+<script src="assets/enhance.js" defer></script>
+</body>
+</html>

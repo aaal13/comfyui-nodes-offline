@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数据来源与合规声明 — ComfyUI 节点离线百科</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<header class="site-header">
+  <div class="container">
+    <a class="site-brand" href="index.html">ComfyUI 节点百科<span class="site-brand-sub">离线版</span></a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="index.html">首页</a>
+      <a href="nodes.html">节点百科</a>
+      <a href="workflows.html">常用工作流</a>
+      <a href="faq.html">术语与排错</a>
+      <a href="sources.html">数据来源</a>
+      <button class="btn theme-toggle" type="button" data-theme-toggle aria-pressed="false">深色模式</button>
+    </nav>
+  </div>
+</header>
+<main class="site-main" id="main" tabindex="-1"><div class="container">
+<h1>数据来源与合规声明</h1>
+<p>本站不是 ComfyUI 官方站点，而是一份<b>可离线打开的本地资料</b>。这一页说明：数据从哪里来、什么时候生成的、许可与 AI 生成声明、怎么自己重建，以及使用上的免责说明。</p>
+
+<section class="card" id="generated">
+  <h2 class="card-title">一、生成时间与规模</h2>
+  <div class="kv">
+    <p><strong>节点数据生成时间（COMFY_DATA.meta.generatedAt）：</strong> <span id="meta-generated-at" class="muted">读取中……（若此处长期显示本句，说明 assets/nodes-data.js 未加载）</span></p>
+    <p><strong>节点总数（COMFY_DATA.meta.nodeCount）：</strong> <span id="meta-node-count" class="muted">—</span></p>
+    <p><strong>本站三页教程/术语内容快照：</strong> 2026-10-10（依据本地已下载的官方文档与 <code class="code">节点数据集快照</code>）</p>
+    <p><strong>官方文档索引生成时间：</strong> 2026-10-10T07:29:40.365Z（<code class="code">vendor/docs/node-index.json</code>）</p>
+    <p><strong>节点数据集 导出文件修改时间：</strong> 2026-10-10T01:09:24.125Z</p>
+  </div>
+  <p class="muted">说明：上面两行的占位文字由页面脚本从 <code class="code">assets/nodes-data.js</code> 的 <code class="code">window.COMFY_DATA.meta</code> 读取后填入（一律使用 textContent 赋值，不采用 HTML 注入式写入）；若数据文件缺失，则改为显示“未检测到…”的降级提示。该数据文件由 <code class="code">scripts/build_catalog.py</code> 生成，属于本项目的另一个构建产物。</p>
+  <div class="sources">
+    <p class="muted">依据：<code class="code">vendor/docs/node-index.json</code>、<code class="code">vendor/docs/fetch-manifest.json</code>（下载时间 2026-10-10T07:30:58.575Z，中文成功 1032 篇、失败 0 篇）、<code class="code">节点数据集快照</code></p>
+  </div>
+</section>
+
+<section class="card" id="sources">
+  <h2 class="card-title">二、数据来源清单</h2>
+  <p>本站只使用下面六类来源，任何节点条目、参数与说明都能追溯到其中之一；站内不出现来源之外的信息。</p>
+  <table class="table"><thead><tr><th>编号</th><th>来源</th><th>官方地址</th><th>本地路径</th><th>用途 / 规模</th></tr></thead><tbody><tr><td>S1</td><td>官方文档索引（内置节点清单 + 一句话简介）</td><td><code class="code">https://docs.comfy.org/_llms/en/built-in-nodes/nodes.md（+ model.md / partner.md）</code></td><td><code class="code">vendor/docs/en-builtin-nodes-index.md</code>、<code class="code">en-builtin-nodes-model.md</code>、<code class="code">en-builtin-nodes-partner.md</code>、<code class="code">node-index.json</code></td><td>节点清单 1032 条，含分类路径与英文简介</td></tr><tr><td>S2</td><td>官方中文节点文档</td><td><code class="code">https://docs.comfy.org/zh/built-in-nodes/&lt;Page&gt;.md</code></td><td><code class="code">vendor/docs/nodes/zh/&lt;Page&gt;.md</code>（1032 篇）</td><td>节点的中文用途、输入/输出表格、参数默认值</td></tr><tr><td>S3</td><td>官方英文节点文档</td><td><code class="code">https://docs.comfy.org/built-in-nodes/&lt;Page&gt;.md</code></td><td><code class="code">vendor/docs/nodes/en/&lt;Page&gt;.md</code>（1032 篇）</td><td>中文缺失时的兜底（本期中文齐全，未使用兜底）</td></tr><tr><td>S4</td><td>官方源码仓库 comfyanonymous/ComfyUI（master）</td><td><code class="code">https://github.com/comfyanonymous/ComfyUI</code></td><td><code class="code">vendor/src/ComfyUI-master/</code>（nodes.py、comfy_extras/*.py）</td><td>真实节点名与注册方式：<code class="code">NODE_CLASS_MAPPINGS</code> 字典键与新版 V3 schema 的 <code class="code">node_id</code></td></tr><tr><td>S5</td><td>官方文档站总索引</td><td><code class="code">https://docs.comfy.org/llms.txt</code></td><td><code class="code">vendor/docs/llms.txt</code></td><td>站点导航与页面发现（教程页地址均由此核实）</td></tr><tr><td>S6</td><td>用户公开节点数据集 的 <code class="code">节点数据集</code> 导出（本项目定义，见 SPEC 第 7 节）</td><td><code class="code">数据集接口导出，非公网地址</code></td><td><code class="code">节点数据集快照</code>（1459 个节点，文件修改时间 2026-10-10T01:09:24.125Z）</td><td>数据集全部已安装节点的真实键名、界面显示名、输入类型/默认值/tooltip、输出、category、python_module；其中 552 条带 description</td></tr></tbody></table>
+  <div class="callout">
+    <p>站外地址在本页中以纯文本形式列出（<b>未做成可点击链接</b>），需要查看时请自行复制到浏览器打开——也就是说本页在离线状态下不会发起任何网络请求。工作流页与 FAQ 页里的官方文档链接是可点击的，那里已逐条标注“需联网”。</p>
+  </div>
+</section>
+
+<section class="card" id="s6">
+  <h2 class="card-title">三、数据集数据（S6）说明</h2>
+  <p>编号 S6 的数据不是官方文档，而是<b>用户公开节点数据集 的 <code class="code">节点数据集</code> 导出</b>：它代表这台机器上真实安装的节点集合。总计 <strong>1459</strong> 个节点，其中 <strong>552</strong> 条带有 description（简介）。构成如下：</p>
+  <table class="table"><thead><tr><th>来源包</th><th>数据集节点数</th></tr></thead><tbody><tr><td>官方核心（core）</td><td>591</td></tr><tr><td>官方 API 节点（api）</td><td>233</td></tr><tr><td>ComfyUI-Impact-Pack</td><td>197</td></tr><tr><td>ComfyUI-WanVideoWrapper</td><td>147</td></tr><tr><td>ComfyUI-LTXVideo</td><td>78</td></tr><tr><td>comfyui_controlnet_aux</td><td>64</td></tr><tr><td>ComfyUI-RMBG</td><td>43</td></tr><tr><td>ComfyUI-VideoHelperSuite</td><td>40</td></tr><tr><td>ComfyUI_IPAdapter_plus</td><td>37</td></tr><tr><td>ComfyUI_Custom_Nodes_AlekPet</td><td>18</td></tr><tr><td>ComfyUI-GGUF</td><td>6</td></tr><tr><td>ComfyUI_UltimateSDUpscale</td><td>4</td></tr><tr><td>websocket_image_save</td><td>1</td></tr><tr><td>自定义节点包合计</td><td>635</td></tr></tbody></table>
+  <div class="callout callout-warn">
+    <p><strong>自定义节点不在官方文档的覆盖范围内。</strong>上表中的第三方节点包（如 ComfyUI-Impact-Pack、ComfyUI-WanVideoWrapper、ComfyUI-LTXVideo、comfyui_controlnet_aux、ComfyUI-RMBG、ComfyUI-VideoHelperSuite、ComfyUI_IPAdapter_plus 等）由各自的作者维护，词汇、参数与行为与官方内置节点不同；本站只按 节点数据集 如实展示它们的真实键名与参数，<b>不描述其功能</b>。需要功能说明请查阅各包自己的仓库与 README。</p>
+  </div>
+</section>
+
+<section class="card" id="priority">
+  <h2 class="card-title">四、来源冲突时的取舍规则</h2>
+  <ol class="prose">
+    <li>节点名、界面显示名、分类、输入/输出（含类型、默认值、tooltip、可选项）、是否为输出节点、<code class="code">python_module</code>：以 <b>S6（节点数据集）</b> 为准，因为它反映你机器上真实可用的节点。</li>
+    <li>中文用途说明：以 <b>S2 官方中文文档</b> 为准；中文缺失时保留英文原文并标记语言，<b>不自行翻译冒充官方</b>。</li>
+    <li>英文用途说明：以 S3 为准，缺失时退回 S6 的 description。</li>
+    <li>S4 源码只用于补充与校对（例如某节点在哪个模块注册），不用来覆盖 S6 的输入/输出事实。</li>
+    <li>节点条目必须至少有一个可追溯来源；没有来源的条目一律剔除。</li>
+  </ol>
+</section>
+
+<section class="card" id="license">
+  <h2 class="card-title">五、许可与署名</h2>
+  <ul class="prose">
+    <li><strong>ComfyUI 代码</strong>：采用 <b>GPL-3.0</b> 许可，版权归 Comfy Org / comfyanonymous 及贡献者所有。项目地址：<code class="code">https://github.com/comfyanonymous/ComfyUI</code>（需联网）。本站仅引用其官方文档与公开的节点注册信息，不再分发其源代码。</li>
+    <li><strong>节点说明文字</strong>：引用/转述自 ComfyUI 官方文档（docs.comfy.org），版权归原作者；本站逐条标注来源页。</li>
+    <li><strong>数据集节点参数</strong>：来自用户自己机器上的 ComfyUI <code class="code">节点数据集</code> 导出，不含第三方隐私数据。</li>
+    <li><strong>本站自身</strong>：非官方项目，不代表 Comfy Org 立场；名称中的“ComfyUI”仅用于说明兼容对象。</li>
+  </ul>
+</section>
+
+<section class="card" id="ai">
+  <h2 class="card-title">六、官方节点文档由 AI 生成的声明</h2>
+  <div class="callout callout-warn">
+    <p><strong>ComfyUI 官方内置节点文档是 AI 生成的</strong>，每篇文档页脚都有原文声明：</p>
+    <p>“本文档由 AI 生成。如果您发现任何错误或有改进建议，欢迎贡献！”</p>
+    <p class="muted">证据（本地下载的官方文档）：<code class="code">vendor/docs/nodes/zh/ClipTextEncode.md</code>、<code class="code">vendor/docs/nodes/zh/LoraLoader.md</code>、<code class="code">vendor/docs/nodes/zh/VAEEncodeForInpaint.md</code> 等文件末尾均含该句。</p>
+  </div>
+  <p>因此本站的做法是：<b>文档负责“说明”，节点数据集 与源码负责“事实”</b>。当你发现文档描述与实际界面不一致时，请以官方页面和你公开节点数据集 的实际参数为准，并欢迎核对本站标注的来源路径。</p>
+</section>
+
+<section class="card" id="rebuild">
+  <h2 class="card-title">七、如何重建这些数据</h2>
+  <ol class="prose">
+    <li><b>抓取官方文档</b>：使用 <code class="code">scripts/fetch_docs.mjs</code>（Node 原生 fetch，无需第三方依赖）下载官方文档索引与逐节点 Markdown 到 <code class="code">vendor/docs/</code>；下载结果记录在 <code class="code">vendor/docs/fetch-manifest.json</code>（1032 篇中文、失败 0 篇）。</li>
+    <li><b>生成节点数据</b>：运行 <code class="code">scripts/build_catalog.py</code>（Python 3 标准库），解析 <code class="code">vendor/docs/node-index.json</code>、<code class="code">vendor/docs/nodes/zh|en/*.md</code> 与 <code class="code">节点数据集快照</code>，输出 <code class="code">site/assets/nodes-data.js</code>（<code class="code">window.COMFY_DATA</code>），并写出 <code class="code">data/build-report.md</code> 构建报告。</li>
+    <li><b>教程、术语与来源页</b>：<code class="code">workflows.html</code>、<code class="code">faq.html</code>、<code class="code">sources.html</code> 为静态 HTML，内容取自 S1–S6 并逐节标注来源；对应的结构化镜像保存在 <code class="code">site/assets/content-data.js</code>（<code class="code">window.CW_CONTENT</code>，仅供审计与二次开发，页面运行不依赖它）。</li>
+    <li><b>离线校验</b>：直接双击 <code class="code">site/index.html</code> 打开即可；本站不使用 fetch/XHR、不加载任何站外资源，因此断网（或开发者工具 Offline）下功能不变。站外来源链接需要联网。</li>
+  </ol>
+  <div class="sources"><p class="muted">相关证据文件：<code class="code">SPEC.md</code>（项目契约）、<code class="code">data/build-report.md</code>（构建报告）、<code class="code">audit/compliance-report.md</code>（合规审计）、<code class="code">audit/verification-report.md</code>（离线与交互验证）。</p></div>
+</section>
+
+<section class="card" id="disclaimer">
+  <h2 class="card-title">八、免责声明</h2>
+  <ul class="prose">
+    <li>本站为学习用本地资料，<b>非官方文档</b>，也不构成对 ComfyUI 或其合作方服务的承诺。</li>
+    <li>内容按“现状”提供：官方文档由 AI 生成可能存在错误，节点参数也会随版本变化；请始终以你公开节点数据集 的实际界面、官方文档页面与源码为准。</li>
+    <li>合作方（Partner）节点与云端服务涉及第三方账号、计费与数据政策，本站未收录其定价与条款，请查阅官方相应页面。</li>
+    <li>本站不包含任何破解、绕过授权或规避计费的内容；所有工作流均为官方文档中公开的常规用法。</li>
+    <li>离线使用：除用户主动点击的站外链接外，页面不会发起任何网络请求。</li>
+  </ul>
+</section>
+</div></main>
+<footer class="site-footer">
+  <div class="container">
+    <p>数据来源：ComfyUI 官方文档（docs.comfy.org，需联网）与官方源码仓库（GPL-3.0）；节点事实以公开节点数据集 <span class="node-chip">节点数据集</span> 导出为准。</p>
+    <p>ComfyUI 为 GPL-3.0 许可；官方节点文档由 AI 生成，可能存在偏差，请以实际运行结果为准。本页完全离线运行，不加载任何外部资源。</p>
+    <p class="muted">「ComfyUI 节点离线百科」· 详细来源与生成时间见 <a href="sources.html">数据来源</a>。</p>
+  </div>
+</footer>
+<script>
+(function () {
+  function cwFillMeta() {
+    var d = window.COMFY_DATA;
+    var at = document.getElementById("meta-generated-at");
+    var nc = document.getElementById("meta-node-count");
+    if (!at || !nc) return;
+    if (d && d.meta && d.meta.generatedAt) {
+      at.textContent = String(d.meta.generatedAt) + "（数据来源：" + String(d.meta.docIndexSource || "官方文档索引") + "）";
+      nc.textContent = String(d.meta.nodeCount || "未知") + " 个（含官方内置与已收录节点）";
+    } else {
+      at.textContent = "未检测到 assets/nodes-data.js 或其中的 COMFY_DATA.meta（该文件由 scripts/build_catalog.py 生成）";
+      nc.textContent = "未知（同上）";
+    }
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", cwFillMeta);
+  } else {
+    cwFillMeta();
+  }
+})();
+</script>
+<script src="assets/nodes-data.js" defer></script>
+<script src="assets/app.js" defer></script>
+<script src="assets/enhance.js" defer></script>
+</body>
+</html>

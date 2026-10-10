@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>节点百科 — ComfyUI 节点离线百科</title>
+<meta name="description" content="按官方分类浏览 ComfyUI 节点：中文用途说明、必选/可选输入、默认值与选项、输出、来源链接，支持实时搜索与深链。">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="site-brand" href="index.html">ComfyUI 节点百科<span class="site-brand-sub">离线版</span></a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="index.html">首页</a>
+      <a href="nodes.html">节点百科</a>
+      <a href="workflows.html">常用工作流</a>
+      <a href="faq.html">术语与排错</a>
+      <a href="sources.html">数据来源</a>
+      <button class="btn theme-toggle" type="button" data-theme-toggle aria-pressed="false">深色模式</button>
+    </nav>
+  </div>
+</header>
+
+<main class="site-main" id="main" tabindex="-1">
+  <div class="container">
+
+    <h1>节点百科</h1>
+    <p class="muted" id="nodes-hint">
+      提示：搜索框输入 2 个字符以上开始过滤；按 <span class="node-chip">/</span> 快速聚焦搜索框，按 <span class="node-chip">Esc</span> 清空。
+      每个节点都可以用链接直接分享，例如 <span class="node-chip">nodes.html#KSampler</span>。
+    </p>
+
+    <div class="callout">
+      <p><strong>怎么读这个页面：</strong>左侧是官方分类树（顶层含「已收录」过滤），中间是节点卡片，右侧是详情面板。
+        节点卡片与详情里的<strong>输入类型、默认值、可选值、参数说明</strong>优先取你公开节点数据集 的 <span class="node-chip">节点数据集</span> 导出；
+        <strong>用途说明</strong>来自 ComfyUI 官方节点文档（中文优先）。</p>
+      <p class="tag-row">
+        <span class="badge badge-zh">已收录</span>
+        <span class="badge badge-warn">未收录（文档库）</span>
+        <span class="badge">core 核心</span>
+        <span class="badge">api 云节点</span>
+        <span class="badge">自定义包名</span>
+        <span class="badge badge-zh">官方中文</span>
+        <span class="badge badge-en">官方暂无中文</span>
+        <span class="badge badge-warn">实验性 / 已弃用</span>
+        <span class="badge">输出节点</span>
+      </p>
+      <p class="muted">
+        「已收录」＝出现在你公开节点数据集 的 <span class="node-chip">节点数据集</span> 导出中；
+        「未收录（文档库）」＝官方文档里有，但你数据集没装（常见于需要更新的核心节点或未安装的自定义节点包）。
+        自定义节点出自第三方作者，不属于 ComfyUI 官方内置节点。
+      </p>
+    </div>
+
+    <div class="layout" id="nodes-app">
+
+      <aside class="sidebar" aria-label="节点分类树">
+        <div class="panel">
+          <div class="tree-head">
+            <h2>分类</h2>
+            <span class="muted">点击过滤</span>
+          </div>
+          <div id="category-tree"></div>
+        </div>
+      </aside>
+
+      <section class="content" aria-label="节点列表">
+        <div class="panel toolbar" role="search">
+          <div class="search-box">
+            <label class="visually-hidden" for="node-search">搜索节点（中英文、节点名、关键词）</label>
+            <input id="node-search" type="search" autocomplete="off" spellcheck="false"
+                   placeholder="搜索：节点名 / 中文 / 英文关键词，例如 采样、KSampler、lora" aria-describedby="nodes-hint">
+            <button class="btn" id="clear-search" type="button">清空搜索</button>
+            <button class="btn" id="filter-doc-only" type="button" aria-pressed="false">仅看官方文档收录</button>
+            <button class="btn" id="filter-reset" type="button" disabled>重置筛选</button>
+            <label class="visually-hidden" for="sort-mode">排序方式</label>
+            <select class="btn" id="sort-mode" title="列表排序方式">
+              <option value="name">排序：节点名 A→Z</option>
+              <option value="core">排序：core 核心节点优先</option>
+              <option value="installed">排序：已收录优先</option>
+            </select>
+          </div>
+          <p class="result-count muted" id="result-count" role="status" aria-live="polite">正在加载节点数据…</p>
+        </div>
+
+        <div class="grid" id="node-cards"></div>
+
+        <div class="list-actions" id="load-more-wrap" hidden>
+          <button class="btn" id="load-more" type="button">显示更多</button>
+        </div>
+      </section>
+
+      <aside class="detail panel" id="node-detail" aria-label="节点详情"></aside>
+
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>数据来源：ComfyUI 官方文档（docs.comfy.org，需联网）与官方源码仓库（GPL-3.0）；节点事实以公开节点数据集 <span class="node-chip">节点数据集</span> 导出为准。</p>
+    <p>ComfyUI 为 GPL-3.0 许可；官方节点文档由 AI 生成，可能存在偏差，请以实际运行结果为准。本页完全离线运行，不加载任何外部资源。</p>
+    <p class="muted">「ComfyUI 节点离线百科」· 详细来源与生成时间见 <a href="sources.html">数据来源</a>。</p>
+  </div>
+</footer>
+
+<script src="assets/nodes-data.js" defer></script>
+<script src="assets/app.js" defer></script>
+<script src="assets/enhance.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,575 @@
+@charset "UTF-8";
+/* ==========================================================================
+   ComfyUI 节点离线百科 — 首页专属样式 (site/assets/hero.css)
+   负责人: ui-designer
+   加载顺序: 必须在 assets/style.css 之后（只被 index.html 引用）
+   约定: 新增组件类统一 hero- 前缀；既有类名（card / stats / stat-* / node-chip /
+        table / badge / sources / btn）语义不变，只做“hero 作用域内”的视觉覆盖。
+   离线: 零外部资源，仅 CSS 渐变、内联 SVG 与系统字体。
+   ========================================================================== */
+
+/* ---------- 1. 端口类型配色（与官方《连线》颜色编码表对应） ---------- */
+:root {
+  --hero-c-model: #8b5cf6;   /* 薰衣草 */
+  --hero-c-clip: #eab308;    /* 黄 */
+  --hero-c-vae: #f43f5e;     /* 玫瑰 */
+  --hero-c-cond: #f97316;    /* 橙 */
+  --hero-c-latent: #ec4899;  /* 粉 */
+  --hero-c-image: #3b82f6;   /* 蓝 */
+  --hero-c-mask: #10b981;    /* 绿 */
+  --hero-c-num: #94a3b8;     /* 灰 */
+  --hero-c-mesh: #84cc16;    /* 亮绿 */
+}
+html[data-theme="dark"] {
+  --hero-c-model: #a78bfa;
+  --hero-c-clip: #facc15;
+  --hero-c-vae: #fb7185;
+  --hero-c-cond: #fb923c;
+  --hero-c-latent: #f472b6;
+  --hero-c-image: #60a5fa;
+  --hero-c-mask: #34d399;
+  --hero-c-num: #94a3b8;
+  --hero-c-mesh: #a3e635;
+}
+
+/* ---------- 2. Hero 外壳 ---------- */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: .35rem 0 clamp(2.4rem, 4.5vw, 3.6rem);
+  padding: clamp(1.6rem, 3.4vw, 3rem) clamp(1.1rem, 3vw, 2.6rem) 0;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 10px);
+  background-color: var(--bg-elev);
+  background-image: var(--grad-soft);
+  box-shadow: var(--shadow-2);
+}
+
+.hero-deco { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+.hero-grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 56px 56px;
+  opacity: .42;
+  -webkit-mask-image: radial-gradient(135% 115% at 6% 0%, #000 0%, rgba(0, 0, 0, .38) 46%, transparent 80%);
+  mask-image: radial-gradient(135% 115% at 6% 0%, #000 0%, rgba(0, 0, 0, .38) 46%, transparent 80%);
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(38px);
+  opacity: .5;
+}
+.hero-orb-a {
+  width: min(420px, 62%);
+  aspect-ratio: 1 / 1;
+  top: -160px;
+  right: -70px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 68%);
+}
+.hero-orb-b {
+  width: min(340px, 52%);
+  aspect-ratio: 1 / 1;
+  bottom: -170px;
+  left: -80px;
+  background: radial-gradient(circle, var(--accent-2) 0%, transparent 70%);
+  opacity: .4;
+}
+html[data-theme="dark"] .hero-orb { opacity: .34; }
+html[data-theme="dark"] .hero-orb-b { opacity: .28; }
+html[data-theme="dark"] .hero-grid-lines { opacity: .3; }
+
+/* 无 JS / 跟随系统深色（app.js 在 auto 时会移除 data-theme，与 style.css 第 8.1 节同一套兜底口径） */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --hero-c-model: #a78bfa;
+    --hero-c-clip: #facc15;
+    --hero-c-vae: #fb7185;
+    --hero-c-cond: #fb923c;
+    --hero-c-latent: #f472b6;
+    --hero-c-image: #60a5fa;
+    --hero-c-mask: #34d399;
+    --hero-c-num: #94a3b8;
+    --hero-c-mesh: #a3e635;
+  }
+  html:not([data-theme]) .hero-orb { opacity: .34; }
+  html:not([data-theme]) .hero-orb-b { opacity: .28; }
+  html:not([data-theme]) .hero-grid-lines { opacity: .3; }
+}
+
+/* ---------- 3. Hero 排版：标题 / 副标题 / CTA ---------- */
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(1.4rem, 3vw, 2.6rem);
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  align-items: center;
+}
+.hero-copy { min-width: 0; }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 0 0 1.1rem;
+  padding: .3rem .72rem .3rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg-elev);
+  color: var(--text-muted);
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  box-shadow: var(--shadow-1);
+}
+.hero-pulse {
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background: var(--grad-accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+  animation: heroPulse 2.6s ease-in-out infinite;
+}
+
+.hero-title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.95rem, 1.05rem + 2.75vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+}
+.hero-title::after {
+  content: "";
+  display: block;
+  width: 4.4rem;
+  height: 4px;
+  margin-top: .9rem;
+  border-radius: 999px;
+  background: var(--grad-accent);
+}
+
+.hero-sub {
+  max-width: 26em;
+  margin: 0 0 1.7rem;
+  color: var(--text-muted);
+  font-size: clamp(1rem, .93rem + .35vw, 1.16rem);
+  line-height: 1.7;
+}
+
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin: 0 0 1rem; }
+.hero-btn { padding: .62rem 1.15rem; font-size: .98rem; }
+.hero-btn-ico { margin-left: .4rem; vertical-align: -3px; transition: transform .18s ease; }
+.hero-btn:hover .hero-btn-ico { transform: translateX(3px); }
+.hero-btn-ghost { background: var(--bg-elev); }
+
+.hero-kbd-hint { margin: 0 0 1rem; color: var(--text-faint); font-size: .85rem; }
+.hero-kbd-hint .cw-kbd { margin: 0 .1rem; }
+
+.hero-trust {
+  max-width: 44em;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: .9rem;
+  line-height: 1.8;
+}
+
+/* ---------- 4. Hero 右侧节点链路示意（内联 SVG） ---------- */
+.hero-visual { position: relative; display: grid; place-items: center; min-width: 0; }
+.hero-graph { display: block; width: 100%; max-width: 420px; height: auto; }
+
+.hero-g-node rect { fill: var(--bg-elev); stroke: var(--border-strong); stroke-width: 1.2; }
+.hero-g-node-main rect { stroke: var(--accent); stroke-width: 1.6; }
+.hero-g-node text {
+  fill: var(--text);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: -.02em;
+}
+.hero-g-link {
+  fill: none;
+  stroke: url(#heroLinkGrad);
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-dasharray: 6 7;
+  opacity: .8;
+  animation: heroDash 2.6s linear infinite;
+}
+.hero-g-stop-a { stop-color: var(--accent-2); }
+.hero-g-stop-b { stop-color: var(--accent); }
+.hero-g-axis { fill: none; stroke: var(--border); stroke-width: 1; stroke-dasharray: 3 6; opacity: .8; }
+.hero-g-port { stroke: var(--bg-elev); stroke-width: 1.6; }
+.hero-g-port-model { fill: var(--hero-c-model); }
+.hero-g-port-clip { fill: var(--hero-c-clip); }
+.hero-g-port-vae { fill: var(--hero-c-vae); }
+.hero-g-port-cond { fill: var(--hero-c-cond); }
+.hero-g-port-latent { fill: var(--hero-c-latent); }
+.hero-g-port-image { fill: var(--hero-c-image); }
+
+.hero-float {
+  position: absolute;
+  padding: .3rem .68rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg-elev);
+  background: color-mix(in srgb, var(--bg-elev) 86%, transparent);
+  color: var(--text-muted);
+  font-size: .76rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: var(--shadow-1);
+  backdrop-filter: saturate(140%) blur(6px);
+}
+.hero-float-a { top: 0; right: 2%; }
+.hero-float-b { bottom: 2%; left: 0; }
+
+/* ---------- 5. 数据带（app.js 注入 #home-stats / #home-meta / #home-packs） ---------- */
+.hero-databand {
+  position: relative;
+  z-index: 1;
+  margin: clamp(1.7rem, 3vw, 2.5rem) calc(-1 * clamp(1.1rem, 3vw, 2.6rem)) 0;
+  padding: clamp(1.15rem, 2.4vw, 1.7rem) clamp(1.1rem, 3vw, 2.6rem) clamp(1.15rem, 2.4vw, 1.5rem);
+  border-top: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+.hero-band-label {
+  margin: 0 0 .95rem;
+  color: var(--text-faint);
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.hero-stats { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin: 0; }
+.hero-stats .stat-item {
+  padding: .1rem clamp(.6rem, 1.4vw, 1.1rem);
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.hero-stats .stat-item::before { display: none; }
+.hero-stats .stat-item + .stat-item { border-left: 1px solid var(--border); }
+.hero-stats .stat-item:first-child { padding-left: 0; }
+.hero-stats .stat-item:last-child { padding-right: 0; }
+.hero-stats .stat-item:hover { transform: none; box-shadow: none; }
+.hero-stats .stat-value {
+  font-size: clamp(1.5rem, 1.05rem + 1.5vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.hero-stats .stat-label { margin-top: .3rem; font-size: .82rem; line-height: 1.55; }
+
+.hero-band-foot {
+  display: grid;
+  gap: .75rem;
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+}
+.hero-meta { margin: 0; font-size: .84rem; }
+.hero-packs { display: grid; gap: .4rem; }
+.hero-packs-label {
+  color: var(--text-muted);
+  font-size: .78rem;
+  font-weight: 700;
+}
+#home-packs { min-width: 0; }
+#home-packs p { margin: 0 0 .35rem; font-size: .84rem; }
+#home-packs .tag-row { display: flex; flex-wrap: wrap; gap: .35rem; }
+#home-packs .badge { font-family: var(--font-mono); font-size: .76rem; }
+
+/* ---------- 6. 章节骨架 ---------- */
+.hero-sec { margin: 0 0 clamp(2.4rem, 4.5vw, 4rem); }
+.hero-sec:last-of-type { margin-bottom: 1.4rem; }
+.hero-sec-head { max-width: 76ch; margin-bottom: 1.35rem; }
+.hero-sec-head h2 { margin: 0 0 .55rem; }
+.hero-lead { margin: 0; color: var(--text-muted); font-size: .96rem; }
+
+/* ---------- 7. 入口卡 ---------- */
+.hero-entries { grid-template-columns: repeat(auto-fit, minmax(248px, 1fr)); gap: 1rem; }
+.hero-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .55rem;
+  padding: 1.15rem 1.2rem 1.2rem;
+}
+.hero-ico {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border));
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  transition: transform .18s ease;
+}
+.hero-ico-sm { width: 2.05rem; height: 2.05rem; border-radius: 11px; }
+a.hero-entry:hover .hero-ico, a.hero-entry:focus-visible .hero-ico { transform: translateY(-2px); }
+.hero-entry .card-title { margin: 0; }
+.hero-one { margin: 0; color: var(--text-muted); font-size: .9rem; line-height: 1.72; }
+.hero-entry-go { margin-top: auto; padding-top: .35rem; color: var(--accent); font-size: .85rem; font-weight: 700; }
+
+/* ---------- 8. 基础概念卡 ---------- */
+.hero-concepts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.hero-concept { display: flex; flex-direction: column; gap: .5rem; }
+.hero-concept .card-title { margin: 0; align-items: center; gap: .55rem; }
+.hero-quote {
+  margin: 0;
+  padding-left: .8rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text-muted);
+  font-size: .87rem;
+  line-height: 1.7;
+}
+.hero-concept .sources { margin: auto 0 0; padding-top: .3rem; }
+
+/* ---------- 9. 端口数据类型表 ---------- */
+.hero-table {
+  margin-bottom: 1rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: .89rem;
+}
+.hero-table th, .hero-table td { border: 0; border-bottom: 1px solid var(--border); padding: .6rem .7rem; }
+.hero-table thead th {
+  padding-top: .2rem;
+  border-bottom: 1px solid var(--border-strong);
+  background: none;
+  color: var(--text-muted);
+  font-size: .78rem;
+  letter-spacing: .04em;
+}
+.hero-table tbody tr:nth-child(even) { background: none; }
+.hero-table tbody tr:hover { background: var(--bg-soft); }
+.hero-table th:first-child, .hero-table td:first-child { width: 2.4rem; padding-left: 0; text-align: center; }
+.hero-table td:last-child, .hero-table th:last-child { padding-right: 0; }
+
+.hero-port {
+  display: inline-block;
+  width: .72rem;
+  height: .72rem;
+  border-radius: 50%;
+  background: var(--hero-c-num);
+  vertical-align: middle;
+}
+.hero-port-model { background: var(--hero-c-model); }
+.hero-port-clip { background: var(--hero-c-clip); }
+.hero-port-vae { background: var(--hero-c-vae); }
+.hero-port-cond { background: var(--hero-c-cond); }
+.hero-port-latent { background: var(--hero-c-latent); }
+.hero-port-image { background: var(--hero-c-image); }
+.hero-port-mask { background: var(--hero-c-mask); }
+.hero-port-num { background: var(--hero-c-num); }
+.hero-port-mesh { background: var(--hero-c-mesh); }
+.hero-port-none {
+  width: .6rem;
+  height: .6rem;
+  border: 2px dashed var(--border-strong);
+  background: none;
+}
+.hero-table-src { max-width: 92ch; }
+
+/* ---------- 10. 新手入门路径（步骤条） ---------- */
+.hero-steps { display: grid; gap: 0; max-width: 92ch; margin: 0; padding: 0; list-style: none; }
+.hero-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0 0 1.65rem;
+}
+.hero-step:last-child { padding-bottom: 0; }
+.hero-step::before {
+  content: "";
+  position: absolute;
+  left: 1.3rem;
+  top: 2.7rem;
+  bottom: .3rem;
+  width: 2px;
+  transform: translateX(-1px);
+  background: var(--border-strong);
+  opacity: .55;
+}
+.hero-step:last-child::before { display: none; }
+.hero-step-num {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: .95rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  box-shadow: var(--shadow-1);
+}
+.hero-step-body { min-width: 0; padding-top: .2rem; }
+.hero-step-title { margin: 0 0 .3rem; font-size: 1.03rem; }
+.hero-step-body .sources { margin: .5rem 0 0; }
+
+.hero-node-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+  gap: .35rem .9rem;
+  margin: .75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hero-node-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .45rem; margin: 0; }
+.hero-node-link {
+  flex: none;
+  padding: .12rem .5rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.hero-node-link:hover, .hero-node-link:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  text-decoration: none;
+}
+.hero-node-use { color: var(--text-muted); font-size: .82rem; }
+
+/* ---------- 11. 数据来源矩阵 ---------- */
+.hero-srcs { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.hero-src { display: flex; flex-direction: column; gap: .5rem; }
+.hero-src .card-title { margin: 0; font-size: .98rem; }
+.hero-src-path { margin: 0; }
+.hero-src-path .node-chip {
+  white-space: normal;
+  word-break: break-all;
+  font-size: .76rem;
+  line-height: 1.55;
+}
+.hero-src .hero-one { margin-top: auto; }
+.hero-more { margin: 1.15rem 0 0; color: var(--text-muted); font-size: .9rem; }
+
+/* ---------- 12. 合规声明条 ---------- */
+.hero-notice {
+  margin: 0 0 1.5rem;
+  padding: .95rem 1.15rem;
+  border: 1px solid var(--warn-border);
+  border-left: 4px solid var(--warn-border);
+  border-radius: var(--radius);
+  background: var(--warn-bg);
+  color: var(--text);
+  font-size: .92rem;
+}
+.hero-notice p { margin: 0; }
+
+/* ---------- 13. 动画 ---------- */
+@keyframes heroDash { to { stroke-dashoffset: -26; } }
+@keyframes heroPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.28); opacity: .72; }
+}
+
+/* ---------- 14. 响应式 ---------- */
+/* 768–1199：单列，示意图移到文案下方 */
+@media (max-width: 1199px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-sub { max-width: 34em; }
+  .hero-graph { max-width: 380px; }
+  .hero-float { display: none; }
+  .hero-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 1.1rem; }
+  .hero-stats .stat-item:nth-child(3n + 1) { padding-left: 0; border-left: 0; }
+}
+
+/* ≤767：手机单列，隐藏示意图形 */
+@media (max-width: 767px) {
+  .hero {
+    margin-bottom: 1.8rem;
+    padding: 1.3rem .95rem 0;
+    border-radius: var(--radius);
+  }
+  .hero-visual { display: none; }
+  .hero-title { font-size: clamp(1.75rem, 1.3rem + 4vw, 2.2rem); }
+  .hero-title::after { width: 3.2rem; margin-top: .7rem; }
+  .hero-sub { max-width: none; margin-bottom: 1.3rem; }
+  .hero-cta { gap: .5rem; }
+  .hero-btn { flex: 1 1 auto; text-align: center; }
+  .hero-grid-lines { background-size: 40px 40px; }
+  .hero-databand {
+    margin-left: -.95rem;
+    margin-right: -.95rem;
+    padding-left: .95rem;
+    padding-right: .95rem;
+  }
+  .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1rem; }
+  .hero-stats .stat-item { padding: .1rem .75rem; }
+  .hero-stats .stat-item:nth-child(2n + 1) { padding-left: 0; border-left: 0; }
+  .hero-stats .stat-value { font-size: 1.55rem; }
+  .hero-entry { padding: 1rem 1rem 1.05rem; }
+  .hero-concepts { grid-template-columns: minmax(0, 1fr); }
+  .hero-step { grid-template-columns: 2.25rem minmax(0, 1fr); gap: .8rem; }
+  .hero-step-num { width: 2.25rem; height: 2.25rem; font-size: .88rem; }
+  .hero-step::before { left: 1.12rem; top: 2.4rem; }
+  .hero-table { font-size: .82rem; }
+  .hero-table th, .hero-table td { padding: .5rem .5rem; }
+}
+
+@media (max-width: 420px) {
+  .hero-stats { grid-template-columns: minmax(0, 1fr); }
+  .hero-stats .stat-item { padding-left: 0; border-left: 0; }
+}
+
+/* ---------- 15. 减少动态效果 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-pulse, .hero-g-link { animation: none; }
+  .hero-btn-ico, .hero-ico { transition: none !important; }
+  .hero-btn:hover .hero-btn-ico { transform: none; }
+  a.hero-entry:hover .hero-ico, a.hero-entry:focus-visible .hero-ico { transform: none; }
+}
+
+/* ---------- 16. 打印友好 ---------- */
+@media print {
+  .hero {
+    margin: 0 0 1rem;
+    padding: 0 0 0;
+    border-radius: 0;
+    background: #fff;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .hero-deco, .hero-visual, .hero-cta, .hero-kbd-hint { display: none !important; }
+  .hero-title::after { background: #000 !important; }
+  .hero-databand {
+    margin: 1rem 0 0;
+    padding: .8rem 0 0;
+    border-top: 1px solid #999;
+    background: #fff;
+  }
+  .hero-stats { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .hero-stats .stat-item { border-left: 1px solid #ccc; page-break-inside: avoid; }
+  .hero-stats .stat-item:first-child { border-left: 0; }
+  .hero-stats .stat-value,
+  .hero-stats .stat-label { color: #000 !important; -webkit-text-fill-color: #000; background: none !important; }
+  .hero-table tbody tr:hover { background: none; }
+  .hero-table thead th { color: #000; }
+  .hero-step { page-break-inside: avoid; }
+  .hero-step::before { display: none; }
+  .hero-step-num { background: #fff; color: #000; box-shadow: none; border-color: #666; }
+  .hero-node-link { background: #fff; color: #000; border-color: #666; }
+  .hero-notice { background: #fff; }
+}

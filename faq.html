@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>术语表与常见问题 — ComfyUI 节点离线百科</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<header class="site-header">
+  <div class="container">
+    <a class="site-brand" href="index.html">ComfyUI 节点百科<span class="site-brand-sub">离线版</span></a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="index.html">首页</a>
+      <a href="nodes.html">节点百科</a>
+      <a href="workflows.html">常用工作流</a>
+      <a href="faq.html">术语与排错</a>
+      <a href="sources.html">数据来源</a>
+      <button class="btn theme-toggle" type="button" data-theme-toggle aria-pressed="false">深色模式</button>
+    </nav>
+  </div>
+</header>
+<main class="site-main" id="main" tabindex="-1"><div class="container">
+<h1>术语表与常见问题</h1>
+<p>这一页解决两类困惑：<strong>名词看不懂</strong>（术语表）和<strong>跑不通</strong>（常见问题 + 排错清单）。所有解释都标注了官方依据；官方节点文档本身由 AI 生成，若与界面不符请以官方页面与数据集为准。</p>
+<div class="panel">
+  <p class="card-title">本页内容</p>
+  <ol class="prose">
+    <li><a href="#glossary">术语表（22 条）</a></li>
+    <li><a href="#faq">常见问题（13 条）</a></li>
+    <li><a href="#troubleshoot">排错清单（7 步）</a></li>
+  </ol>
+</div>
+<section class="card" id="glossary">
+  <h2 class="card-title">一、术语表</h2>
+  <p class="muted">下表中的说明为官方文档原文引用或紧贴原文的转述；带 <code class="code">等宽字体</code> 的是真实参数名或节点名。</p>
+  <table class="table"><thead><tr><th>术语</th><th>官方说明（引用/转述自官方文档）</th><th>来源</th></tr></thead><tbody><tr><td><strong>节点（Node）</strong></td><td>ComfyUI 中节点是我们执行任务的单元：无论是 Comfy Core 还是自定义节点，每个节点都是独立模块，节点之间通过连线连接。</td><td><a href="https://docs.comfy.org/zh/basic-concepts/nodes.md">官方页面（需联网）</a></td></tr><tr><td><strong>连线（Link）</strong></td><td>节点之间绘制的线条或曲线称为连线，把数据从一个节点的输出传输到另一个节点的输入，从而定义工作流的流程。</td><td><a href="https://docs.comfy.org/zh/basic-concepts/links.md">官方页面（需联网）</a></td></tr><tr><td><strong>端口颜色 / 数据类型</strong></td><td>每种数据类型都有独特的颜色，节点的输入输出端口与连线都遵循该配色；只能连接相同颜色的端口，以保证类型安全。常见类型有 IMAGE、LATENT、MASK、MODEL、CLIP、VAE、CONDITIONING。</td><td><a href="https://docs.comfy.org/zh/basic-concepts/links.md">官方页面（需联网）</a></td></tr><tr><td><strong>潜空间（Latent / LATENT）</strong></td><td>扩散模型不是在像素上直接工作，而是在压缩后的潜空间里运算。<code class="code">EmptyLatentImage</code> 用于生成具有指定尺寸和批次大小的空白潜空间表示；VAEEncode 把图像编码进潜空间。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/EmptyLatentImage.md">官方页面（需联网）</a></td></tr><tr><td><strong>Checkpoint</strong></td><td>指真正参与运算的权重文件（例如 checkpoint、VAE、LoRA、ControlNet、放大模型等），放在 <code class="code">ComfyUI/models/</code> 对应子文件夹，再在加载器节点里选中。CheckpointLoaderSimple 会把 checkpoint 拆成 MODEL（主模型）、CLIP（文本编码器）、VAE（图像编解码器）三个输出。</td><td><a href="https://docs.comfy.org/zh/basic-concepts/models.md">官方页面（需联网）</a></td></tr><tr><td><strong>CLIP</strong></td><td>文本编码器：用 CLIP 模型把提示词编码为嵌入（embedding），用来引导扩散模型。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/ClipTextEncode.md">官方页面（需联网）</a></td></tr><tr><td><strong>VAE</strong></td><td>图像编码器/解码器：VAEDecode 把 LATENT 解码成图像，VAEEncode 把图像编码成 LATENT。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/VAEDecode.md">官方页面（需联网）</a></td></tr><tr><td><strong>CONDITIONING</strong></td><td>CLIPTextEncode 的输出类型，包含用于引导扩散模型的嵌入文本。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/ClipTextEncode.md">官方页面（需联网）</a></td></tr><tr><td><strong>种子 seed</strong></td><td>用于生成随机噪声；使用相同的“种子”将生成相同的图像。默认 0，范围 0 ~ 18446744073709551615。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/KSampler.md">官方页面（需联网）</a></td></tr><tr><td><strong>步数 steps</strong></td><td>去噪过程中使用的步数，步数越多结果越精确。默认 20，范围 1 ~ 10000。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/KSampler.md">官方页面（需联网）</a></td></tr><tr><td><strong>cfg</strong></td><td>控制生成图像与输入条件的匹配程度，官方建议值 6-8，默认 8.0。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/KSampler.md">官方页面（需联网）</a></td></tr><tr><td><strong>采样器 sampler_name</strong></td><td>选择用于去噪的采样器，影响生成速度和风格。数据集可选 44 项。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/KSampler.md">官方页面（需联网）</a></td></tr><tr><td><strong>调度器 scheduler</strong></td><td>控制噪声的移除方式，影响生成过程。数据集可选 9 项。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/KSampler.md">官方页面（需联网）</a></td></tr><tr><td><strong>降噪 denoise</strong></td><td>决定噪声移除比例，默认 1.0，范围 0.0 ~ 1.0。图生图必须小于 1：越小与参考图差异越小；等于 1 时潜空间图变为完全随机的噪声。</td><td><a href="https://docs.comfy.org/zh/tutorials/basic/image-to-image.md">官方页面（需联网）</a></td></tr><tr><td><strong>LoRA</strong></td><td>一种用于微调大型生成模型的高效技术：在预训练模型上引入可训练的低秩矩阵，以较低计算成本实现特定任务的优化；使用时可把 LoRA 当作“滤镜”。</td><td><a href="https://docs.comfy.org/zh/tutorials/basic/lora.md">官方页面（需联网）</a></td></tr><tr><td><strong>ControlNet</strong></td><td>通过引入多模态输入条件（边缘检测图、深度图、姿势关键点等）显著提升图像生成的可控性和细节还原能力。</td><td><a href="https://docs.comfy.org/zh/tutorials/controlnet/controlnet.md">官方页面（需联网）</a></td></tr><tr><td><strong>遮罩（Mask）</strong></td><td>指示输入图像中需要修复区域的遮罩；<code class="code">VAEEncodeForInpaint</code> 会用它修改图像，让 VAE 聚焦相关区域。扩展遮罩 grow_mask_by 越大，修复影响的区域越大。</td><td><a href="https://docs.comfy.org/zh/built-in-nodes/VAEEncodeForInpaint.md">官方页面（需联网）</a></td></tr><tr><td><strong>放大模型（UPSCALE_MODEL）</strong></td><td>UpscaleModelLoader 加载放大模型，ImageUpscaleWithModel 用它把图像放大；模型放在 <code class="code">ComfyUI/models/upscale_models</code>。</td><td><a href="https://docs.comfy.org/zh/tutorials/basic/upscale.md">官方页面（需联网）</a></td></tr><tr><td><strong>工作流模板（Templates）</strong></td><td>工作流模板是 ComfyUI 中原生支持的模型工作流及自定义节点提供的模型工作流的浏览窗口，可由 侧边栏 Templates 或 工作流 → 浏览工作流模板 打开。</td><td><a href="https://docs.comfy.org/zh/interface/features/template.md">官方页面（需联网）</a></td></tr><tr><td><strong>自定义节点</strong></td><td>由第三方作者开发的扩展节点。工作流里出现“丢失（Missing）”状态时，若属于自定义节点，说明本地尚未安装对应扩展，可用 ComfyUI Manager 查找并安装。</td><td><a href="https://docs.comfy.org/zh/basic-concepts/nodes.md">官方页面（需联网）</a></td></tr><tr><td><strong>节点状态</strong></td><td>常见状态：正常、运行（正在执行）、错误（输入有问题，红色标识出错输入）、丢失（原生节点丢失通常是版本旧；自定义节点丢失通常是未安装）。</td><td><a href="https://docs.comfy.org/zh/basic-concepts/nodes.md">官方页面（需联网）</a></td></tr><tr><td><strong>节点数据集</strong></td><td>ComfyUI 后端提供的节点信息接口。本站的“已收录”数据来自用户公开节点数据集文件 <code class="code">节点数据集快照</code>（1459 个节点，含真实键名、输入参数默认值、category 与 python_module）。</td><td>本地 <code class="code">节点数据集快照</code>（本项目来源 S6，见 SPEC 第 7 节）</td></tr></tbody></table>
+</section>
+<h2 id="faq">二、常见问题</h2>
+<div class="grid grid-2">
+<section class="card">
+  <h2 class="card-title">Q1. 运行工作流时某个节点变成红色 / 报错怎么办？</h2>
+  <p>那是节点的<b>错误（Error）状态</b>：官方文档说明，运行工作流后如果对应节点的输入存在问题就会显示这个状态，并用红色标识出错的输入节点，你需要解决对应出错的输入才能让工作流正常运行。先顺着红色连线检查上游输出类型是否匹配。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/basic-concepts/nodes.md">官方《节点》（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q2. 拖入工作流后出现“丢失（Missing）”的节点，怎么办？</h2>
+  <p>官方文档给出两种可能：① <b>Comfy Core 原生节点丢失</b>——通常是 ComfyUI 版本较旧（工作流用了更新的节点），更新 ComfyUI 即可；② <b>自定义节点丢失</b>——工作流用了第三方作者开发的扩展而本地尚未安装，可用 ComfyUI Manager 查找安装，或参考《如何安装自定义节点》。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/basic-concepts/nodes.md">官方《节点》（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q3. 为什么有些节点在官方文档里（或在本站）查不到？</h2>
+  <p>因为官方内置节点文档只覆盖 <b>内置节点</b>。公开节点数据集 还安装了自定义节点包——本站统计到 <b>11 个包、635 个节点</b>（如 ComfyUI-Impact-Pack 197 个、ComfyUI-WanVideoWrapper 147 个、ComfyUI-LTXVideo 78 个、comfyui_controlnet_aux 64 个）。它们的用途请查阅各自仓库的 README；本站只在节点百科里按 节点数据集 如实展示它们的真实参数，不对其功能做推测性描述。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/basic-concepts/nodes.md">节点数据集（S6）+ 官方《节点》（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q4. 图生图 / 局部重绘生成出来几乎没变化，或者完全变了？</h2>
+  <p>看 <code class="code">denoise</code>：图生图必须<b>小于 1</b>。官方教程说明——denoise 越小，生成图像与参考图差异越小；越大差异越大；denoise 为 1 时潜空间图会变成完全随机的噪声，参考图特征全部丢失；只有 denoise 为 0 时才完全不执行采样步。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/tutorials/basic/image-to-image.md">官方图生图教程（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q5. 为什么把 denoise 调低以后，生成反而没有变快？</h2>
+  <p>官方教程的原文说明：调低 denoise <b>不会减少</b>实际执行的采样步数。ComfyUI 会按 <code class="code">steps / denoise</code>（向下取整）构建调度表，再保留最后 <code class="code">steps + 1</code> 个 sigma。若想在保持步长密度的情况下只采样部分噪声区间，把 steps 设为“运行步数 × denoise”。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/tutorials/basic/image-to-image.md">官方图生图教程（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q6. 提示词怎么写才有效？</h2>
+  <p>官方文生图教程的原则：尽量用英文；用英文逗号分隔；尽量用短语而不是长句；描述更具体；用 <code class="code">(golden hour:1.2)</code> 这类写法提升关键词权重。CLIPTextEncode 文档补充：普通括号 <code class="code">(word)</code> 应用默认权重 1.1；用 <code class="code">\\(word\\)</code> 表示字面括号；<code class="code">{a|b|c}</code> 是动态提示词；<code class="code">embedding:模型名</code> 可引用嵌入模型。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/built-in-nodes/ClipTextEncode.md">官方文生图教程 + CLIPTextEncode 文档（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q7. LoRA 加载了但没什么效果，怎么调？多个 LoRA 能一起用吗？</h2>
+  <p>LoraLoader 文档：<code class="code">模型强度</code>（strength_model）与 <code class="code">CLIP强度</code>（strength_clip）取值范围 -100.0 到 100.0，日常图像生成通常在 0~1 之间使用，数值越高调整效果越明显。想叠加多个 LoRA，把多个 LoraLoader 串联起来即可（官方另有《应用多个 LoRA 示例》）。另外 LoRA 文件要放在 <code class="code">ComfyUI\models\loras</code>（节点会自动检测该目录，含子文件夹）。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/built-in-nodes/LoraLoader.md">LoraLoader 官方中文文档（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q8. ControlNet 要配什么图？为什么找不到预处理器节点？</h2>
+  <p>官方教程：不同类型的 ControlNet 需要不同类型的参考图（线稿、深度图、姿态图等）；并且说明 Comfy Core 节点中<b>不包含所有类型的预处理器</b>，实际使用常需要借助自定义节点，例如 ComfyUI ControlNet aux、ComfyUI-Advanced-ControlNet。已收录 <code class="code">comfyui_controlnet_aux</code>（64 个节点，如 CannyEdgePreprocessor、OpenposePreprocessor、DepthAnythingV2Preprocessor）。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/tutorials/controlnet/controlnet.md">官方 ControlNet 教程 + 节点数据集（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q9. 模型文件应该放在哪个目录？</h2>
+  <p>官方《模型》：放到 <code class="code">ComfyUI/models/</code> 下与类型对应的子文件夹（如 <code class="code">checkpoints</code>、<code class="code">loras</code>、<code class="code">vae</code>），再在加载器节点（名称里通常带 Load）的下拉菜单里选择。其它教程补充：放大模型放 <code class="code">models/upscale_models</code>；ControlNet 模型放 <code class="code">models/controlnet</code>。放好后按 <code class="code">R</code> 刷新节点列表。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/basic-concepts/models.md">官方《模型》+ 放大/ControlNet/Stable Audio 教程（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q10. 生成的音频、视频保存到哪了？</h2>
+  <p>ACE-Step 教程：音频会被保存至 <code class="code">ComfyUI/output/audio</code>，由 <code class="code">Save Audio</code> 节点决定子目录名。视频则由 CreateVideo/SaveVideo 决定，SaveVideo 的 <code class="code">filename_prefix</code> 默认是 <code class="code">video/ComfyUI</code>。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/built-in-nodes/SaveVideo.md">ACE-Step 教程 + SaveVideo 文档（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q11. 找不到教程里说的官方模板，或者提示节点缺失？</h2>
+  <p>官方教程 Tip：模板可以通过 工作流 → 浏览模板 加载；如果找不到，可能是 ComfyUI 没有更新，建议更新到最新版（每夜版）。节点缺失的另一个原因是“启动时有些节点导入失败”。模板本身由独立依赖 <code class="code">comfyui-workflow-templates</code> 管理，更新 ComfyUI 后如果看不到新模板，可能是该依赖没更新。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/interface/features/template.md">Wan2.2 教程 + 工作流模板页（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q12. 官方文档里的中文说明可以直接相信吗？</h2>
+  <p>可以当作主要参考，但要知道<b>官方节点文档由 AI 生成</b>：每篇节点文档页脚都写着“本文档由 AI 生成”。本站因此对每一条内容都标注了来源，并把“节点数据集 的真实参数名与默认值”作为机器可核对的事实；若文档与你的界面不一致，以官方页面与本地环境为准。</p>
+  <p class="muted">依据：<a href="https://docs.comfy.org/zh/built-in-nodes/KSampler.md">官方文档页脚（见 vendor/docs/nodes/zh/*.md）（需联网）</a></p>
+</section>
+<section class="card">
+  <h2 class="card-title">Q13. 这个网站为什么断网也能用？</h2>
+  <p>本站是纯静态页面：所有数据以 <code class="code">assets/nodes-data.js</code> 这类本地 JS 文件提供，不使用 fetch/XHR、不引用 CDN、字体或远程图片，因此双击 <code class="code">index.html</code>（file:// 协议）即可浏览。页面里的站外来源链接需要联网才能打开，已逐条标注“需联网”。</p>
+  <p class="muted">依据：<a href="sources.html">本项目 SPEC 第 1、5 节（需联网）</a></p>
+</section>
+</div>
+<section class="card" id="troubleshoot">
+  <h2 class="card-title">三、排错清单</h2>
+  <p>按顺序往下走，绝大多数“跑不通”都能定位：</p>
+  <table class="table"><thead><tr><th>#</th><th>检查项</th><th>做法</th><th>依据</th></tr></thead><tbody><tr><td>1</td><td>更新到最新版</td><td>教程 Tip：模板找不到、核心节点缺失，首先怀疑 ComfyUI 没更新（建议最新版/每夜版）。</td><td><a href="https://docs.comfy.org/zh/tutorials/video/wan/wan2_2.md">官方文档（需联网）</a></td></tr><tr><td>2</td><td>确认模型目录 + 按 R 刷新</td><td>模型放在 <code class="code">ComfyUI/models/</code> 对应子目录；放置后按 <code class="code">R</code> 刷新节点列表，再在加载器里选择文件。</td><td><a href="https://docs.comfy.org/zh/basic-concepts/models.md">官方文档（需联网）</a></td></tr><tr><td>3</td><td>检查红色输入（错误状态）</td><td>运行后红色标识的就是出错输入，顺着连线检查上游节点的输出类型是否匹配。</td><td><a href="https://docs.comfy.org/zh/basic-concepts/nodes.md">官方文档（需联网）</a></td></tr><tr><td>4</td><td>区分核心节点缺失与自定义节点缺失</td><td>核心节点缺失→更新 ComfyUI；自定义节点缺失→用 ComfyUI Manager 安装对应扩展。</td><td><a href="https://docs.comfy.org/zh/basic-concepts/nodes.md">官方文档（需联网）</a></td></tr><tr><td>5</td><td>核对采样参数是否符合任务</td><td>文生图 denoise = 1；图生图 / 音频到音频 denoise < 1（差异与 denoise 成正比）；denoise = 0 不采样。</td><td><a href="https://docs.comfy.org/zh/tutorials/basic/image-to-image.md">官方文档（需联网）</a></td></tr><tr><td>6</td><td>核对参考图与模型是否匹配</td><td>ControlNet 的参考图类型要与模型匹配；放大模型放 <code class="code">models/upscale_models</code>。</td><td><a href="https://docs.comfy.org/zh/tutorials/controlnet/controlnet.md">官方文档（需联网）</a></td></tr><tr><td>7</td><td>显存不足</td><td>Wan2.2 5B 配合 ComfyUI 原生 offloading 应能较好适配 8GB 显存；显存充足时可尝试 720P 左右分辨率。</td><td><a href="https://docs.comfy.org/zh/tutorials/video/wan/wan2_2.md">官方文档（需联网）</a></td></tr></tbody></table>
+</section>
+<div class="callout">
+  <p>还想知道某个节点具体怎么用？去 <a href="nodes.html">节点百科</a> 搜索节点名（支持中文、英文与真实键名），详情面板里有完整的输入/输出表格；想看它们怎么串起来，去 <a href="workflows.html">常用工作流</a>。</p>
+</div>
+</div></main>
+<footer class="site-footer">
+  <div class="container">
+    <p>数据来源：ComfyUI 官方文档（docs.comfy.org，需联网）与官方源码仓库（GPL-3.0）；节点事实以公开节点数据集 <span class="node-chip">节点数据集</span> 导出为准。</p>
+    <p>ComfyUI 为 GPL-3.0 许可；官方节点文档由 AI 生成，可能存在偏差，请以实际运行结果为准。本页完全离线运行，不加载任何外部资源。</p>
+    <p class="muted">「ComfyUI 节点离线百科」· 详细来源与生成时间见 <a href="sources.html">数据来源</a>。</p>
+  </div>
+</footer>
+<script src="assets/nodes-data.js" defer></script>
+<script src="assets/app.js" defer></script>
+<script src="assets/enhance.js" defer></script>
+</body>
+</html>
